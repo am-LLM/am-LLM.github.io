@@ -64,6 +64,11 @@ My background bridges deep technical execution with high-level strategic oversig
   * **Interspecies Mammalian & Rodent Acoustic Communication** ([Engine 70](https://github.com/am-LLM/tinkering/blob/main/frontier_hybrids/engine_70_interspecies_mammalian_rodent_communication.py)): 20–100 kHz USV spectrogram analysis for rodent affective play vs alarm calls and cross-species semantic intent mapping.
 * **📚 [418 Field Investigation Modules](https://github.com/am-LLM/tinkering/tree/main/engineering_continuum)**: Empirical research harnesses covering electromagnetics, advanced robotics, financial risk models, and continuous physical systems.
 
+### ⚡ [`TinyWonder, Zero base LORA adapter`](./TinyWonder,%20Zero%20base%20LORA%20adapter) — Zero-Base LoRA Adapter Research & Stacking Attenuation
+* **📄 [Paper 1: Zero-Base LoRA Host Architecture](./TinyWonder,%20Zero%20base%20LORA%20adapter/paper1_zero_base_host.pdf)**: Decoupled multi-tenant adapter execution, zero-base runtime lanes, and memory-mapped page-permission transport.
+* **📄 [Paper 2: Multi-Adapter Stacking Attenuation](./TinyWonder,%20Zero%20base%20LORA%20adapter/paper2_stacking_attenuation.pdf)**: Dynamic attenuation schedules, harmonic interference mitigation, and multi-shard perplexity confidence intervals for composite LoRA stacks.
+* **🔬 [Artifacts & Vector Figures](./TinyWonder,%20Zero%20base%20LORA%20adapter/papers/figures)**: Full vector diagrams, data telemetry, and standard-library publication hygiene audit gates.
+
 ### 🎓 [`am-LLM/certification_prep`](./certification_prep) — Professional Certification Preparation & Applied Labs
 * **Offensive Security & Cyber Resilience**: Comprehensive frameworks, cheat sheets, and Python verification PoCs for **OSCP**, **OSWE**, **CISSP**, **CEH**, **CHFI**, and **GICSP**.
 * **Enterprise Infrastructure & Governance**: Deep architectural references for **CCNA/CCNP**, **NEBOSH/OSHA** safety modeling, **ISO 22301** BCM, and **PRINCE2** stage-gate EVM.
