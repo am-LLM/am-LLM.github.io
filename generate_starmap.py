@@ -1152,6 +1152,7 @@ def generate_html():
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
 
+        initFocusReticle();
         TOPICS.forEach((item, index) => {{
             const sector = SECTORS[item.cluster] || SECTORS["continuum"];
             const center = sector.pos;
@@ -1215,6 +1216,26 @@ def generate_html():
         lineGeo.setAttribute("position", new THREE.Float32BufferAttribute(linePositions, 3));
         const linesMesh = new THREE.LineSegments(lineGeo, lineMat);
         galaxyGroup.add(linesMesh);
+
+        // Dedicated Focus Reticle & Golden Glow Texture
+        let GOLD_FOCUS_TEXTURE = null;
+        let focusReticle = null;
+
+        function initFocusReticle() {{
+            GOLD_FOCUS_TEXTURE = createGlowSprite("#ffea00");
+
+            // Dual Pulsating Neon Target Rings around selected star
+            const reticleGeo = new THREE.RingGeometry(1.6, 2.0, 32);
+            const reticleMat = new THREE.MeshBasicMaterial({{
+                color: 0xffea00,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.95
+            }});
+            focusReticle = new THREE.Mesh(reticleGeo, reticleMat);
+            focusReticle.visible = false;
+            galaxyGroup.add(focusReticle);
+        }}
 
         // Theme Application
         function applyTheme(themeKey) {{
@@ -1290,33 +1311,65 @@ def generate_html():
         function flyToNode(mesh, targetDist = 38) {{
             controls.autoRotate = false;
 
-            // Revert previous selected star's color and scale
+            // Revert previous selected star to original appearance
             if (selectedNode && selectedNode.material) {{
-                if (originalSelectedColor !== null) {{
-                    selectedNode.material.color.setHex(originalSelectedColor);
-                    if (selectedNode.material.emissive) {{
-                        selectedNode.material.emissive.setHex(originalSelectedColor);
-                    }}
+                if (selectedNode.userData._origMap) {{
+                    selectedNode.material.map = selectedNode.userData._origMap;
+                    selectedNode.material.needsUpdate = true;
                 }}
-                if (originalSelectedScale !== null) {{
-                    selectedNode.scale.copy(originalSelectedScale);
+                if (selectedNode.userData._origScale) {{
+                    selectedNode.scale.copy(selectedNode.userData._origScale);
+                }}
+                if (selectedNode.userData._origColor !== undefined) {{
+                    selectedNode.material.color.setHex(selectedNode.userData._origColor);
+                    if (selectedNode.material.emissive) {{
+                        selectedNode.material.emissive.setHex(selectedNode.userData._origColor);
+                    }}
                 }}
             }}
 
-            // Highlight newly selected star: high-visibility radiant gold/cyan beacon & pulse scale
+            // Select and Highlight Target Star
             selectedNode = mesh;
-            if (mesh.material && mesh.material.color) {{
-                originalSelectedColor = mesh.userData._origColor || mesh.material.color.getHex();
-                originalSelectedScale = mesh.userData._origScale || mesh.scale.clone();
-                mesh.userData._origColor = originalSelectedColor;
-                mesh.userData._origScale = originalSelectedScale;
+            if (mesh && mesh.material) {{
+                // Save original properties on first selection
+                if (!mesh.userData._origMap && mesh.material.map) {{
+                    mesh.userData._origMap = mesh.material.map;
+                }}
+                if (!mesh.userData._origScale) {{
+                    mesh.userData._origScale = mesh.scale.clone();
+                }}
+                if (mesh.userData._origColor === undefined && mesh.material.color) {{
+                    mesh.userData._origColor = mesh.material.color.getHex();
+                }}
 
-                // High-visibility focus beacon: Radiant Golden Flare
-                mesh.material.color.setHex(0xffd700);
+                // 1. Swap texture to pure solar gold flare
+                if (GOLD_FOCUS_TEXTURE) {{
+                    mesh.material.map = GOLD_FOCUS_TEXTURE;
+                    mesh.material.needsUpdate = true;
+                }}
+                // 2. Tint bright radiant golden yellow
+                if (mesh.material.color) {{
+                    mesh.material.color.setHex(0xffea00);
+                }}
                 if (mesh.material.emissive) {{
                     mesh.material.emissive.setHex(0xffaa00);
                 }}
-                mesh.scale.set(originalSelectedScale.x * 1.85, originalSelectedScale.y * 1.85, originalSelectedScale.z * 1.85);
+                // 3. Enlarge scale by 2.2x
+                if (mesh.userData._origScale) {{
+                    mesh.scale.set(
+                        mesh.userData._origScale.x * 2.2,
+                        mesh.userData._origScale.y * 2.2,
+                        mesh.userData._origScale.z
+                    );
+                }}
+
+                // 4. Attach and position pulsating neon focus ring
+                if (focusReticle) {{
+                    focusReticle.position.copy(mesh.position);
+                    const ringScale = (mesh.userData._origScale ? mesh.userData._origScale.x : 10) * 0.9;
+                    focusReticle.scale.set(ringScale, ringScale, ringScale);
+                    focusReticle.visible = true;
+                }}
             }}
 
             const targetPos = new THREE.Vector3();
@@ -1390,16 +1443,20 @@ def generate_html():
             sidePanel.classList.remove("open");
             controls.autoRotate = true;
             if (selectedNode && selectedNode.material) {{
-                if (originalSelectedColor !== null) {{
-                    selectedNode.material.color.setHex(originalSelectedColor);
-                    if (selectedNode.material.emissive) {{
-                        selectedNode.material.emissive.setHex(originalSelectedColor);
-                    }}
+                if (selectedNode.userData._origMap) {{
+                    selectedNode.material.map = selectedNode.userData._origMap;
+                    selectedNode.material.needsUpdate = true;
                 }}
-                if (originalSelectedScale !== null) {{
-                    selectedNode.scale.copy(originalSelectedScale);
+                if (selectedNode.userData._origScale) {{
+                    selectedNode.scale.copy(selectedNode.userData._origScale);
+                }}
+                if (selectedNode.userData._origColor !== undefined) {{
+                    selectedNode.material.color.setHex(selectedNode.userData._origColor);
                 }}
                 selectedNode = null;
+            }}
+            if (focusReticle) {{
+                focusReticle.visible = false;
             }}
         }});
 
@@ -1481,6 +1538,17 @@ def generate_html():
             TWEEN.update();
             controls.update();
             galaxyGroup.rotation.y += 0.0002;
+
+            if (focusReticle && focusReticle.visible) {{
+                focusReticle.lookAt(camera.position);
+                const pulse = 1.0 + Math.sin(time * 0.006) * 0.12;
+                focusReticle.scale.set(
+                    focusReticle.userData._baseScale * pulse || 12 * pulse,
+                    focusReticle.userData._baseScale * pulse || 12 * pulse,
+                    1
+                );
+            }}
+
             renderer.render(scene, camera);
         }}
         requestAnimationFrame(animate);
