@@ -756,6 +756,7 @@ def generate_html():
                 <button class="filter-btn" data-cat="BCI & Interspecies Bio"><span class="dot" style="background: #00ffaa;"></span> BCI & Bio</button>
                 <button class="filter-btn" data-cat="Formal QA & Compilers"><span class="dot" style="background: #ffffff;"></span> Formal QA</button>
                 <button class="filter-btn" data-cat="Quantum & Energy"><span class="dot" style="background: #38bdf8;"></span> Quantum & Energy</button>
+                <button class="filter-btn" data-cat="Social & Civic Impact"><span class="dot" style="background: #10b981;"></span> 🕊️ Social & Civic (60)</button>
                 <button class="filter-btn" data-cat="Continuum Fields"><span class="dot" style="background: #c4b5fd;"></span> 418 Continuum</button>
             </div>
 
@@ -1495,6 +1496,23 @@ def generate_html():
                         mesh.visible = false;
                     }}
                 }});
+
+                // Auto-warp camera toward the selected sector planet if a specific category was clicked
+                if (cat !== "all") {{
+                    const sectorEntry = Object.values(SECTORS).find(s => s.cat === cat);
+                    if (sectorEntry) {{
+                        const p = sectorEntry.pos;
+                        new TWEEN.Tween(camera.position)
+                            .to({{ x: p.x, y: p.y + 40, z: p.z + 90 }}, 1100)
+                            .easing(TWEEN.Easing.Cubic.Out)
+                            .start();
+                        new TWEEN.Tween(controls.target)
+                            .to({{ x: p.x, y: p.y, z: p.z }}, 1100)
+                            .easing(TWEEN.Easing.Cubic.Out)
+                            .start();
+                    }}
+                }}
+
                 playChime(500, "square");
             }});
         }});
