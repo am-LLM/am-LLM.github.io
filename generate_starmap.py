@@ -1261,6 +1261,9 @@ def generate_html():
         const searchResults = document.getElementById("search-results");
 
         let hoveredNode = null;
+        let selectedNode = null;
+        let originalSelectedColor = null;
+        let originalSelectedScale = null;
 
         function showPanel(item) {{
             const colHex = "#" + (activeTheme.catColors[item.category] || 0x00f0ff).toString(16).padStart(6, '0');
@@ -1286,6 +1289,36 @@ def generate_html():
 
         function flyToNode(mesh, targetDist = 38) {{
             controls.autoRotate = false;
+
+            // Revert previous selected star's color and scale
+            if (selectedNode && selectedNode.material) {{
+                if (originalSelectedColor !== null) {{
+                    selectedNode.material.color.setHex(originalSelectedColor);
+                    if (selectedNode.material.emissive) {{
+                        selectedNode.material.emissive.setHex(originalSelectedColor);
+                    }}
+                }}
+                if (originalSelectedScale !== null) {{
+                    selectedNode.scale.copy(originalSelectedScale);
+                }}
+            }}
+
+            // Highlight newly selected star: high-visibility radiant gold/cyan beacon & pulse scale
+            selectedNode = mesh;
+            if (mesh.material && mesh.material.color) {{
+                originalSelectedColor = mesh.userData._origColor || mesh.material.color.getHex();
+                originalSelectedScale = mesh.userData._origScale || mesh.scale.clone();
+                mesh.userData._origColor = originalSelectedColor;
+                mesh.userData._origScale = originalSelectedScale;
+
+                // High-visibility focus beacon: Radiant Golden Flare
+                mesh.material.color.setHex(0xffd700);
+                if (mesh.material.emissive) {{
+                    mesh.material.emissive.setHex(0xffaa00);
+                }}
+                mesh.scale.set(originalSelectedScale.x * 1.85, originalSelectedScale.y * 1.85, originalSelectedScale.z * 1.85);
+            }}
+
             const targetPos = new THREE.Vector3();
             mesh.getWorldPosition(targetPos);
             const camTargetPos = targetPos.clone().add(new THREE.Vector3(0, 12, targetDist));
@@ -1356,6 +1389,18 @@ def generate_html():
         document.getElementById("panel-close-btn").addEventListener("click", () => {{
             sidePanel.classList.remove("open");
             controls.autoRotate = true;
+            if (selectedNode && selectedNode.material) {{
+                if (originalSelectedColor !== null) {{
+                    selectedNode.material.color.setHex(originalSelectedColor);
+                    if (selectedNode.material.emissive) {{
+                        selectedNode.material.emissive.setHex(originalSelectedColor);
+                    }}
+                }}
+                if (originalSelectedScale !== null) {{
+                    selectedNode.scale.copy(originalSelectedScale);
+                }}
+                selectedNode = null;
+            }}
         }});
 
         document.getElementById("reset-cam-btn").addEventListener("click", () => {{
