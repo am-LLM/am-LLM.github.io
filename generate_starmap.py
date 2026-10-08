@@ -212,38 +212,47 @@ def build_catalog():
         })
 
 
-    # 9. Social Development & Civic Governance Continuum (60 Frameworks)
-    social_pillars = [
-        ("FUSION-01: National Climate-Adaptive Social Safety Net", "12_master_hybrid_fusion_treatises/fusion_01_resilient_civic_safety_net.md", "Anticipatory cash transfers & SGBV safety net triggered 72h prior to floods.", ["Anticipatory Action", "WASH", "SGBV", "Microfinance"], 4.2),
-        ("FUSION-02: Women Integrated Legal, Financial & Reproductive Autonomy", "12_master_hybrid_fusion_treatises/fusion_02_last_mile_women_economic_legal_nexus.md", "Union Council centers unifying mobile CNICs, worker co-ops & obstetric tele-triage.", ["Women Rights", "Microfinance", "Health", "Paralegal"], 4.2),
-        ("FUSION-03: Holistic Child Safeguarding & Offline Digital Literacy", "12_master_hybrid_fusion_treatises/fusion_03_child_safeguarding_cyber_humanitarian.md", "Air-gapped cyber education & local LLMs in welfare homes with trauma healing.", ["Child Protection", "Air-Gapped AI", "CFS", "Juvenile Justice"], 4.2),
-        ("FUSION-04: Integrated Watershed QHSE & Circular Agroecology", "12_master_hybrid_fusion_treatises/fusion_04_qhse_community_water_agroecology.md", "Subsurface gravel filters recycling greywater for fodder irrigation & seed banks.", ["WASH", "QHSE", "Circular Agroecology", "EPA"], 4.2),
-        ("FUSION-05: Master Civic Accountability & Open Governance", "12_master_hybrid_fusion_treatises/fusion_05_civic_accountability_open_governance.md", "RTI procurement audit kits, open-data budget pink book decoders & prison bail tracking.", ["Civic Tech", "RTI", "Budget Transparency", "Prison Reform"], 4.2),
-        ("SGBV 5x5 Spatial Exposure Risk Matrix & Camp Heatmap", "04_sgbv_vulnerability_protection/p16_sgbv_quantitative_risk_matrix.md", "Quantitative hazard scoring auditing latrine distances, lighting & escort paths.", ["SGBV", "Risk Matrix", "Camp Safety", "Protection"], 3.6),
-        ("Predictive Vulnerability Forecasting in Protracted Displacement", "04_sgbv_vulnerability_protection/p17_predictive_displaced_vulnerability.md", "Leading economic & nutritional distress telemetry forecasting household distress 30 days early.", ["Predictive Modeling", "Displaced Persons", "Early Warning"], 3.6),
-        ("72-Hour SGBV Clinical, Forensic & Safe Shelter SOP", "04_sgbv_vulnerability_protection/p18_sgbv_survivor_clinical_referral.md", "Zero-harm survivor-centered clinical PEP, trauma counseling & sealed evidence chain of custody.", ["SGBV Survivor Care", "72h PEP", "Forensic Chain"], 3.6),
-        ("Project CYBER-ORPHAN: Air-Gapped Cyber Defense Curriculum", "01_cyber_ai_orphan_education/p01_airgapped_cyber_hygiene_orphanages.md", "Zero-cost offline digital defense & Linux lab manual for child welfare homes.", ["Cyber Hygiene", "Orphanages", "Offline Labs"], 3.5),
-        ("AQUA-AUDIT: Community-Led Water Scheme Monitoring Framework", "02_wash_climate_adaptation/p06_aqua_audit_community_monitoring.md", "Field verification protocol tracking chlorine residual, pump uptime & spare parts.", ["WASH", "Water Audits", "Community Governance"], 3.5),
-        ("Master Portfolio MEL Operating Manual (PMEL-CORE)", "03_pmel_results_governance/p11_pmel_master_toolkit.md", "Institutional-grade results-based monitoring (RBM) & data quality audit protocols.", ["PMEL", "M&E", "Logframes", "DQA"], 3.5),
-        ("Federal PC-1 Project Proposal Formulation & Defense Playbook", "03_pmel_results_governance/p12_federal_pc1_defense_playbook.md", "Comprehensive authoring & audit defense guide for Federal Planning Commission formats.", ["PC-1", "Public Sector", "Planning Commission"], 3.8),
-        ("Microfinance Predatory Lending APR Transparency Calculator", "07_microfinance_financial_resilience/p31_predatory_microfinance_audit.md", "Automated effective APR & fee discloser preventing debt-to-income compound traps.", ["Microfinance", "APR Calculator", "Consumer Defense"], 3.5),
-        ("Urban Heatwave Municipal Early Action Protocol (72h Window)", "08_disaster_risk_food_security/p36_anticipatory_heatwave_action.md", "Automated municipal budget trigger for misting corridors & labor respite before 45C events.", ["Early Action", "Heatwaves", "Disaster Risk"], 3.5),
-        ("Integrated QHSE Master Management Manual (ISO 9001/14001/45001)", "11_qhse_risk_governance/p51_qhse_master_integrated_manual.md", "Harmonized quality, health, safety & environment control architecture for civil operations.", ["QHSE", "ISO 45001", "ISO 14001", "Risk Governance"], 3.8)
-    ]
-    for title, rel_doc, desc, tags, size in social_pillars:
-        clean_id = "social_" + rel_doc.replace("/", "_").replace(".md", "")
+    # 9. Complete Social Development & Civic Governance Constellation (All 61 Modules)
+    social_mds = sorted(glob.glob("/Users/alimalik/am-LLM/social_development_continuum/**/*.md", recursive=True))
+    for smd in social_mds:
+        if os.path.basename(smd) == "README.md":
+            continue
+        rel = os.path.relpath(smd, "/Users/alimalik/am-LLM/social_development_continuum")
+        name = os.path.basename(smd).replace(".md", "")
+        with open(smd, "r", encoding="utf-8") as fp:
+            s_content = fp.read()
+        
+        # Extract title from markdown
+        m_title = re.search(r'^#\s+(.*)', s_content, re.MULTILINE)
+        clean_title = m_title.group(1).strip() if m_title else name.replace("_", " ").title()
+        
+        # Extract description from WHAT or Summary
+        m_desc = re.search(r'\*\*WHAT\*\*\s*\|\s*(.*?)\s*\|', s_content)
+        if not m_desc:
+            m_desc = re.search(r'\*\*Project Description:\*\*\s*(.*)', s_content)
+        clean_desc = m_desc.group(1).strip() if m_desc else "Applied social development, human security & policy governance architecture."
+        
+        is_fusion = "fusion" in rel.lower()
+        is_baseline = "baseline" in rel.lower()
+        size = 4.4 if is_fusion else (3.6 if is_baseline or any(k in rel for k in ["p16", "p17", "p18", "p11", "p12", "p51"]) else 2.6)
+        
+        # Derive tags from parent folder
+        folder_tag = os.path.dirname(rel).replace("_", " ").title()
+        tags = ["Social Continuum", "Civic Impact", folder_tag]
+        if is_fusion:
+            tags.append("Master Fusion")
+        
         topics.append({
-            "id": clean_id,
-            "name": title,
+            "id": "social_" + rel.replace("/", "_").replace(".md", ""),
+            "name": clean_title[:68],
             "category": "Social & Civic Impact",
-            "folder": f"am-LLM/social_development_continuum/{rel_doc}",
-            "url": f"https://github.com/am-LLM/am-LLM.github.io/blob/main/social_development_continuum/{rel_doc}",
-            "desc": desc,
-            "tags": tags + ["Social Continuum", "UN SDGs"],
+            "folder": f"am-LLM/social_development_continuum/{rel}",
+            "url": f"https://github.com/am-LLM/am-LLM.github.io/blob/main/social_development_continuum/{rel}",
+            "desc": clean_desc[:210],
+            "tags": tags,
             "size": size,
             "cluster": "social_impact"
         })
-
     return topics
 
 def generate_html():
