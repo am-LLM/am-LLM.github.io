@@ -124,7 +124,7 @@ def build_catalog():
             "name": title,
             "category": "Sales, Marketing & Strategy",
             "folder": "am-LLM/business_growth",
-            "url": "https://github.com/am-LLM/am-LLM#1--business-strategy-market-analysis--growth",
+            "url": "https://github.com/am-LLM/am-LLM.github.io#1--business-strategy-market-analysis--growth",
             "desc": desc,
             "tags": tags,
             "size": 3.5,
@@ -145,7 +145,7 @@ def build_catalog():
             "name": title,
             "category": "Forecasting & Risk",
             "folder": "am-LLM/forecasting_and_risk",
-            "url": "https://github.com/am-LLM/am-LLM#1--business-strategy-market-analysis--growth",
+            "url": "https://github.com/am-LLM/am-LLM.github.io#1--business-strategy-market-analysis--growth",
             "desc": desc,
             "tags": tags,
             "size": 3.5,
@@ -166,7 +166,7 @@ def build_catalog():
             "name": title,
             "category": "Cognitive AI & SLMs",
             "folder": "am-LLM/cognitive_ai",
-            "url": "https://github.com/am-LLM/am-LLM#2--ai-project-management--applied-engineering-leadership",
+            "url": "https://github.com/am-LLM/am-LLM.github.io#2--ai-project-management--applied-engineering-leadership",
             "desc": desc,
             "tags": tags,
             "size": 3.5,
@@ -185,7 +185,7 @@ def build_catalog():
             "name": title,
             "category": "Formal QA & Compilers",
             "folder": "am-LLM/quality_assurance",
-            "url": "https://github.com/am-LLM/am-LLM#3--quality-assurance-qa-verification--reliability-engineering",
+            "url": "https://github.com/am-LLM/am-LLM.github.io#3--quality-assurance-qa-verification--reliability-engineering",
             "desc": desc,
             "tags": tags,
             "size": 3.5,
@@ -209,6 +209,39 @@ def build_catalog():
             "tags": ["Continuum", f"Field {num}", "Mathematical Simulation"],
             "size": 1.5,
             "cluster": "continuum"
+        })
+
+
+    # 9. Social Development & Civic Governance Continuum (60 Frameworks)
+    social_pillars = [
+        ("FUSION-01: National Climate-Adaptive Social Safety Net", "12_master_hybrid_fusion_treatises/fusion_01_resilient_civic_safety_net.md", "Anticipatory cash transfers & SGBV safety net triggered 72h prior to floods.", ["Anticipatory Action", "WASH", "SGBV", "Microfinance"], 4.2),
+        ("FUSION-02: Women Integrated Legal, Financial & Reproductive Autonomy", "12_master_hybrid_fusion_treatises/fusion_02_last_mile_women_economic_legal_nexus.md", "Union Council centers unifying mobile CNICs, worker co-ops & obstetric tele-triage.", ["Women Rights", "Microfinance", "Health", "Paralegal"], 4.2),
+        ("FUSION-03: Holistic Child Safeguarding & Offline Digital Literacy", "12_master_hybrid_fusion_treatises/fusion_03_child_safeguarding_cyber_humanitarian.md", "Air-gapped cyber education & local LLMs in welfare homes with trauma healing.", ["Child Protection", "Air-Gapped AI", "CFS", "Juvenile Justice"], 4.2),
+        ("FUSION-04: Integrated Watershed QHSE & Circular Agroecology", "12_master_hybrid_fusion_treatises/fusion_04_qhse_community_water_agroecology.md", "Subsurface gravel filters recycling greywater for fodder irrigation & seed banks.", ["WASH", "QHSE", "Circular Agroecology", "EPA"], 4.2),
+        ("FUSION-05: Master Civic Accountability & Open Governance", "12_master_hybrid_fusion_treatises/fusion_05_civic_accountability_open_governance.md", "RTI procurement audit kits, open-data budget pink book decoders & prison bail tracking.", ["Civic Tech", "RTI", "Budget Transparency", "Prison Reform"], 4.2),
+        ("SGBV 5x5 Spatial Exposure Risk Matrix & Camp Heatmap", "04_sgbv_vulnerability_protection/p16_sgbv_quantitative_risk_matrix.md", "Quantitative hazard scoring auditing latrine distances, lighting & escort paths.", ["SGBV", "Risk Matrix", "Camp Safety", "Protection"], 3.6),
+        ("Predictive Vulnerability Forecasting in Protracted Displacement", "04_sgbv_vulnerability_protection/p17_predictive_displaced_vulnerability.md", "Leading economic & nutritional distress telemetry forecasting household distress 30 days early.", ["Predictive Modeling", "Displaced Persons", "Early Warning"], 3.6),
+        ("72-Hour SGBV Clinical, Forensic & Safe Shelter SOP", "04_sgbv_vulnerability_protection/p18_sgbv_survivor_clinical_referral.md", "Zero-harm survivor-centered clinical PEP, trauma counseling & sealed evidence chain of custody.", ["SGBV Survivor Care", "72h PEP", "Forensic Chain"], 3.6),
+        ("Project CYBER-ORPHAN: Air-Gapped Cyber Defense Curriculum", "01_cyber_ai_orphan_education/p01_airgapped_cyber_hygiene_orphanages.md", "Zero-cost offline digital defense & Linux lab manual for child welfare homes.", ["Cyber Hygiene", "Orphanages", "Offline Labs"], 3.5),
+        ("AQUA-AUDIT: Community-Led Water Scheme Monitoring Framework", "02_wash_climate_adaptation/p06_aqua_audit_community_monitoring.md", "Field verification protocol tracking chlorine residual, pump uptime & spare parts.", ["WASH", "Water Audits", "Community Governance"], 3.5),
+        ("Master Portfolio MEL Operating Manual (PMEL-CORE)", "03_pmel_results_governance/p11_pmel_master_toolkit.md", "Institutional-grade results-based monitoring (RBM) & data quality audit protocols.", ["PMEL", "M&E", "Logframes", "DQA"], 3.5),
+        ("Federal PC-1 Project Proposal Formulation & Defense Playbook", "03_pmel_results_governance/p12_federal_pc1_defense_playbook.md", "Comprehensive authoring & audit defense guide for Federal Planning Commission formats.", ["PC-1", "Public Sector", "Planning Commission"], 3.8),
+        ("Microfinance Predatory Lending APR Transparency Calculator", "07_microfinance_financial_resilience/p31_predatory_microfinance_audit.md", "Automated effective APR & fee discloser preventing debt-to-income compound traps.", ["Microfinance", "APR Calculator", "Consumer Defense"], 3.5),
+        ("Urban Heatwave Municipal Early Action Protocol (72h Window)", "08_disaster_risk_food_security/p36_anticipatory_heatwave_action.md", "Automated municipal budget trigger for misting corridors & labor respite before 45C events.", ["Early Action", "Heatwaves", "Disaster Risk"], 3.5),
+        ("Integrated QHSE Master Management Manual (ISO 9001/14001/45001)", "11_qhse_risk_governance/p51_qhse_master_integrated_manual.md", "Harmonized quality, health, safety & environment control architecture for civil operations.", ["QHSE", "ISO 45001", "ISO 14001", "Risk Governance"], 3.8)
+    ]
+    for title, rel_doc, desc, tags, size in social_pillars:
+        clean_id = "social_" + rel_doc.replace("/", "_").replace(".md", "")
+        topics.append({
+            "id": clean_id,
+            "name": title,
+            "category": "Social & Civic Impact",
+            "folder": f"am-LLM/social_development_continuum/{rel_doc}",
+            "url": f"https://github.com/am-LLM/am-LLM.github.io/blob/main/social_development_continuum/{rel_doc}",
+            "desc": desc,
+            "tags": tags + ["Social Continuum", "UN SDGs"],
+            "size": size,
+            "cluster": "social_impact"
         })
 
     return topics
@@ -776,6 +809,7 @@ def generate_html():
                     "BCI & Interspecies Bio": 0x00ffaa,
                     "Formal QA & Compilers": 0xffffff,
                     "Quantum & Energy": 0x38bdf8,
+                    "Social & Civic Impact": 0x10b981,
                     "Continuum Fields": 0xc4b5fd
                 }},
                 lineColor: 0x00f0ff,
@@ -794,6 +828,7 @@ def generate_html():
                     "BCI & Interspecies Bio": 0xd97706,
                     "Formal QA & Compilers": 0xffedd5,
                     "Quantum & Energy": 0xfef08a,
+                    "Social & Civic Impact": 0x34d399,
                     "Continuum Fields": 0xfde68a
                 }},
                 lineColor: 0xfbbf24,
@@ -830,6 +865,7 @@ def generate_html():
                     "BCI & Interspecies Bio": 0x00ffaa,
                     "Formal QA & Compilers": 0xdcfce7,
                     "Quantum & Energy": 0x6ee7b7,
+                    "Social & Civic Impact": 0x059669,
                     "Continuum Fields": 0xa7f3d0
                 }},
                 lineColor: 0x00ffaa,
@@ -848,6 +884,7 @@ def generate_html():
                     "BCI & Interspecies Bio": 0x4ade80,
                     "Formal QA & Compilers": 0xffffff,
                     "Quantum & Energy": 0xe2e8f0,
+                    "Social & Civic Impact": 0x10b981,
                     "Continuum Fields": 0x94a3b8
                 }},
                 lineColor: 0xffffff,
@@ -918,6 +955,13 @@ def generate_html():
                 color: "#38bdf8",
                 hex: 0x38bdf8,
                 cat: "Quantum & Energy"
+            }},
+            "social_impact": {{
+                name: "🕊️ CIVIC-CONTINUUM: SGBV & SOCIAL IMPACT",
+                pos: {{ x: 75, y: 70, z: 85 }},
+                color: "#10b981",
+                hex: 0x10b981,
+                cat: "Social & Civic Impact"
             }},
             "continuum": {{
                 name: "📚 418 FIELD CONTINUUM",
