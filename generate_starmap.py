@@ -1156,6 +1156,26 @@ def generate_html():
             galaxyGroup.add(billboard);
         }}
 
+        // Dedicated Focus Reticle & Golden Glow Texture
+        let GOLD_FOCUS_TEXTURE = null;
+        let focusReticle = null;
+
+        function initFocusReticle() {{
+            GOLD_FOCUS_TEXTURE = createGlowSprite("#ffea00");
+
+            // Dual Pulsating Neon Target Rings around selected star
+            const reticleGeo = new THREE.RingGeometry(1.6, 2.0, 32);
+            const reticleMat = new THREE.MeshBasicMaterial({{
+                color: 0xffea00,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.95
+            }});
+            focusReticle = new THREE.Mesh(reticleGeo, reticleMat);
+            focusReticle.visible = false;
+            galaxyGroup.add(focusReticle);
+        }}
+
         // Layout Stars Around Their Exact Sector Focus Planet
         const nodeMeshes = [];
         const nodeDataMap = new Map();
@@ -1226,26 +1246,6 @@ def generate_html():
         lineGeo.setAttribute("position", new THREE.Float32BufferAttribute(linePositions, 3));
         const linesMesh = new THREE.LineSegments(lineGeo, lineMat);
         galaxyGroup.add(linesMesh);
-
-        // Dedicated Focus Reticle & Golden Glow Texture
-        let GOLD_FOCUS_TEXTURE = null;
-        let focusReticle = null;
-
-        function initFocusReticle() {{
-            GOLD_FOCUS_TEXTURE = createGlowSprite("#ffea00");
-
-            // Dual Pulsating Neon Target Rings around selected star
-            const reticleGeo = new THREE.RingGeometry(1.6, 2.0, 32);
-            const reticleMat = new THREE.MeshBasicMaterial({{
-                color: 0xffea00,
-                side: THREE.DoubleSide,
-                transparent: true,
-                opacity: 0.95
-            }});
-            focusReticle = new THREE.Mesh(reticleGeo, reticleMat);
-            focusReticle.visible = false;
-            galaxyGroup.add(focusReticle);
-        }}
 
         // Theme Application
         function applyTheme(themeKey) {{
